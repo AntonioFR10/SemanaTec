@@ -1,20 +1,15 @@
 """Paint, for drawing shapes.
 
-Exercises
+Autores: Juan Antonio Figueroa Rodriguez A01369043
+         Ángel Armando Márquez Curiel A01754739
 
-1. Add a color.
-2. Complete circle.
-3. Complete rectangle.
-4. Complete triangle.
-5. Add width parameter.
 """
 
 from turtle import *
-
 from freegames import vector
-import math
 
 
+# Función para dibujar una línea desde un punto de inicio hasta un punto final
 def line(start, end):
     """Draw line from start to end."""
     up()
@@ -22,7 +17,7 @@ def line(start, end):
     down()
     goto(end.x, end.y)
 
-
+# Función para dibujar un cuadrado desde un punto de inicio hasta un punto final
 def square(start, end):
     """Draw square from start to end."""
     up()
@@ -36,7 +31,7 @@ def square(start, end):
     end_fill()
     up()
 
-
+# Función para dibujar un rectángulo desde un punto de inicio hasta un punto final
 def circulo(start):
     """Draw circle from start to end."""
     up()
@@ -47,16 +42,41 @@ def circulo(start):
     end_fill()
     up()
 
-
+# Función para dibujar un triángulo desde un punto de inicio hasta un punto final
 def rectangle(start, end):
     """Draw rectangle from start to end."""
-    pass  # TODO
+    up()
+    goto(start.x, start.y)
+    down()
+    begin_fill()
 
+    for _ in range(2):
+        forward(end.x - start.x)
+        left(90)
+        forward((end.y - start.y) / 2)
+        left(90)
+        forward(end.x - start.x)
+        left(90)
+        forward((end.y - start.y) / 2)
+        left(90)
+    end_fill()
+    up()
 
+# Función para dibujar un triángulo desde un punto de inicio hasta un punto final
 def triangle(start, end):
     """Draw triangle from start to end."""
-    pass  # TODO
+    up()
+    goto(start.x, start.y)
+    down()
+    begin_fill()
 
+    for _ in range(3):
+        forward(end.x - start.x)
+        left(120)
+    end_fill()
+    up()
+
+# Función para almacenar el punto de inicio o dibujar la forma
 def tap(x, y):
     """Store starting point or draw shape."""
     start = state['start']
@@ -69,7 +89,7 @@ def tap(x, y):
         shape(start, end)
         state['start'] = None
 
-
+# Función para almacenar un valor en el estado en una clave
 def store(key, value):
     """Store value in state at key."""
     state[key] = value
@@ -81,6 +101,10 @@ color('red')
 square(vector(-100, -100), vector(100, 100))
 color('black')
 circulo(vector(-50, -50))
+color('blue')
+rectangle(vector(-50, -50), vector(50, 50))
+color('green')
+triangle(vector(-50, -50), vector(50, 50))
 onscreenclick(tap)
 listen()
 onkey(undo, 'u')
