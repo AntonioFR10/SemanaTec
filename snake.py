@@ -78,7 +78,7 @@ def move():
     square(food.x, food.y, 9, food_color)
     update()
     ontimer(move, 100)
-    ontimer(move_food, 3000)  # Move food every 7000ms
+    ontimer(move_food, 3000)  # Se mueve cada 3000 ms
 
 setup(420, 420, 370, 0)
 hideturtle()
