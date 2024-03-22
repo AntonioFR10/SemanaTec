@@ -16,7 +16,8 @@ def tap(x, y):
     if not inside(ball):
         ball.x = -199
         ball.y = -199
-        # Ajustamos la velocidad del movmiento para que sea más rápida
+        # Ajustamos la velocidad del la bola para que sea más rápida
+
         speed.x = (x + 411) / 25    
         speed.y = (y + 411) / 25
 
@@ -46,7 +47,9 @@ def move():
         targets.append(target)
 
     for target in targets:
-        target.x -= 0.5
+        # Ajustamos la velocidad de los objetivos para que sea más rápida
+        
+        target.x -= 2
 
     if inside(ball):
         speed.y -= 0.35
@@ -62,8 +65,10 @@ def move():
     draw()
 
     for target in targets:
+        # Si el objetivo no está dentro de la ventana, lo reposicionamos en el otro extremo
+        
         if not inside(target):
-            return
+            target.x = 200
 
     ontimer(move, 50)
 
