@@ -1,23 +1,42 @@
+"""
+Autores: Juan Antonio Figueroa Rodriguez A01369043
+         Ángel Armando Márquez Curiel A01754739
+"""
+
 from turtle import *
-from random import randrange
+from random import randrange, choice
 from freegames import square, vector
 
+colors = ['blue', 'green', 'yellow', 'purple', 'orange']
+snake_color = choice(colors)
+colors.remove(snake_color)  # Impedimos que la serpiente y la comida tengan el mismo color
+food_color = choice(colors)
 
 food = vector(0, 0)
 snake = [vector(10, 0)]
 aim = vector(0, -10)
 
+
 def change(x, y):
-    "Change snake direction."
+    """
+    Cambia la dirección de la serpiente.
+    Los parámetros x e y definen la nueva dirección.
+    """
     aim.x = x
     aim.y = y
 
 def inside(head):
-    "Return True if head inside boundaries."
+    """
+    Verifica si la cabeza de la serpiente está dentro de los límites del juego.
+    Devuelve True si la cabeza está dentro de los límites, False en caso contrario.
+    """
     return -200 < head.x < 190 and -200 < head.y < 190
 
 def move_food():
-    "Move food one step in a random direction."
+    """
+    Mueve la comida un paso en una dirección aleatoria.
+    Si la comida se sale de los límites, la mueve de vuelta dentro de los límites.
+    """
     food.x += randrange(-10, 11, 10)
     food.y += randrange(-10, 11, 10)
 
@@ -26,9 +45,14 @@ def move_food():
         # If food is out of boundaries, move it back
         food.x = max(min(food.x, 190), -200)
         food.y = max(min(food.y, 190), -200)
-
+#
 def move():
-    "Move snake forward one segment."
+    """
+    Mueve la serpiente un segmento hacia adelante.
+    Si la serpiente choca con los límites o con ella misma, termina el juego.
+    Si la serpiente come la comida, la comida se mueve a una nueva ubicación.
+    Si la serpiente no come la comida, se elimina el último segmento de la serpiente.
+    """
     head = snake[-1].copy()
     head.move(aim)
 
@@ -49,9 +73,9 @@ def move():
     clear()
 
     for body in snake:
-        square(body.x, body.y, 9, 'black')
+        square(body.x, body.y, 9, snake_color)
 
-    square(food.x, food.y, 9, 'green')
+    square(food.x, food.y, 9, food_color)
     update()
     ontimer(move, 100)
     ontimer(move_food, 3000)  # Move food every 7000ms
