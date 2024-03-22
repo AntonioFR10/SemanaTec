@@ -12,12 +12,17 @@ path = Turtle(visible=False)
 writer = Turtle(visible=False)
 aim = vector(5, 0)
 pacman = vector(-40, -80)
+
+# Aqui realizamos el cambio para hacer mas rápidos a los fantasmas
 ghosts = [
     [vector(-180, 160), vector(10, 0)],
     [vector(-180, -160), vector(0, 10)],
     [vector(100, 160), vector(0, -10)],
     [vector(100, -160), vector(-10, 0)],
 ]
+
+# Tablero anterior al cambio para poder comprar
+
 # tiles = [
 #     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 #     0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
@@ -64,7 +69,7 @@ tiles = [
 ]
 
 def square(x, y):
-    "Draw square using path at (x, y)."
+    "Dibuja un cuadrado usando path en (x, y)."
     path.up()
     path.goto(x, y)
     path.down()
@@ -77,14 +82,14 @@ def square(x, y):
     path.end_fill()
 
 def offset(point):
-    "Return offset of point in tiles."
+    "Devuelve el desplazamiento del punto en las baldosas."
     x = (floor(point.x, 20) + 200) / 20
     y = (180 - floor(point.y, 20)) / 20
     index = int(x + y * 20)
     return index
 
 def valid(point):
-    "Return True if point is valid in tiles."
+    "Devuelve True si el punto es válido en las baldosas."
     index = offset(point)
 
     if tiles[index] == 0:
@@ -98,7 +103,7 @@ def valid(point):
     return point.x % 20 == 0 or point.y % 20 == 0
 
 def world():
-    "Draw world using path."
+    "Dibuja el mundo usando path."
     bgcolor('black')
     path.color('blue')
 
@@ -116,7 +121,7 @@ def world():
                 path.dot(2, 'white')
 
 def move():
-    "Move pacman and all ghosts."
+    "Mueve a pacman y a todos los fantasmas."
     writer.undo()
     writer.write(state['score'])
 
@@ -139,18 +144,29 @@ def move():
     dot(20, 'yellow')
 
     for point, course in ghosts:
-        if valid(point + course):
-            point.move(course)
+        # Aquí se calcula la diferencia entre las posiciones x e y del Pacman y el fantasma
+
+        dx, dy = pacman.x - point.x, pacman.y - point.y
+        options = [vector(5, 0), vector(-5, 0), vector(0, 5), vector(0, -5)]
+        # Aquí se decide mover el fantasma en la dirección de la mayor diferencia
+        
+        if abs(dx) > abs(dy):
+            if dx > 0:
+                plan = vector(5, 0)
+            else:
+                plan = vector(-5, 0)
         else:
-            options = [
-                vector(5, 0),
-                vector(-5, 0),
-                vector(0, 5),
-                vector(0, -5),
-            ]
+            if dy > 0:
+                plan = vector(0, 5)
+            else:
+                plan = vector(0, -5)
+
+        while not valid(point + plan):
             plan = choice(options)
-            course.x = plan.x
-            course.y = plan.y
+        
+        point.move(plan)
+        course.x = plan.x
+        course.y = plan.y
 
         up()
         goto(point.x + 10, point.y + 10)
@@ -165,7 +181,7 @@ def move():
     ontimer(move, 100)
 
 def change(x, y):
-    "Change pacman aim if valid."
+    "Cambia el objetivo de pacman si es válido."
     if valid(pacman + vector(x, y)):
         aim.x = x
         aim.y = y
@@ -177,6 +193,7 @@ writer.goto(160, 160)
 writer.color('white')
 writer.write(state['score'])
 listen()
+# Aquí se cambian las teclas para mover a Pacman
 onkey(lambda: change(5, 0), 'Right')
 onkey(lambda: change(-5, 0), 'Left')
 onkey(lambda: change(0, 5), 'Up')
