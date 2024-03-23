@@ -80,6 +80,10 @@ def move():
     ontimer(move, 100)
     ontimer(move_food, 3000)  # Se mueve cada 3000 ms
 
+
+"""
+Estas líneas se encargan de configurar el entorno de juego, ocultar la tortuga, establecer el rastreo en falso, escuchar las teclas de dirección, iniciar el movimiento de la serpiente y finalizar el programa cuando se termina el juego.
+"""
 setup(420, 420, 370, 0)
 hideturtle()
 tracer(False)

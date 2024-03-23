@@ -1,8 +1,6 @@
-"""Paint, for drawing shapes.
-
+"""
 Autores: Juan Antonio Figueroa Rodriguez A01369043
          Ángel Armando Márquez Curiel A01754739
-
 """
 
 from turtle import *
@@ -96,7 +94,10 @@ def store(key, value):
 
 
 state = {'start': None, 'shape': line}
+# Configurar la ventana de dibujo con un ancho de 420, alto de 420, posición x de 370 y posición y de 0
 setup(420, 420, 370, 0)
+
+# Cambiamos el color para las diferentes figuras que dibujaremos
 color('red')
 square(vector(-100, -100), vector(100, 100))
 color('black')
@@ -107,6 +108,8 @@ color('green')
 triangle(vector(-50, -50), vector(50, 50))
 onscreenclick(tap)
 listen()
+
+# Asignar la función lambda que establece el color de dibujo en negro al evento de presionar la tecla 'K'
 onkey(undo, 'u')
 onkey(lambda: color('black'), 'K')
 onkey(lambda: color('white'), 'W')
@@ -119,4 +122,6 @@ onkey(lambda: store('shape', square), 's')
 onkey(lambda: store('shape', circle), 'c')
 onkey(lambda: store('shape', rectangle), 'r')
 onkey(lambda: store('shape', triangle), 't')
+
+# Finalizar la configuración y comenzar a escuchar eventos
 done()
